@@ -25,20 +25,27 @@ function launchModal() {
 function validate() {
   const regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
 
-  const firstnameOk = formElt.firstname.value.length >= 2;
+  const isFirstnameValid = formElt.firstname.value.length >= 2;
   
-  const lastnameOk = formElt.lastname.value.length >= 2;
+  const isLastnameValid = formElt.lastname.value.length >= 2;
 
-  const emailOk = regex.test(formElt.email.value)
+  const isEmailValid = regex.test(formElt.email.value)
   
   const qtyValue = formElt.quantity.value;
-  const qtyOk = !qtyValue || (qtyValue && !isNaN(qtyValue) && qtyValue > 0)
+  const isQtyValid = !qtyValue || (qtyValue && !isNaN(qtyValue) && qtyValue >= 0 && qtyValue < 100)
 
-  const radioOk = Array.from(formElt.location).find(x => x.checked) !== undefined
+  const birthdateTime = new Date(formElt.birthdate.value).getTime();
+  const todayTime = new Date().getTime();
+  let isBirthdateValid = false;
+  if (birthdateTime <= todayTime) {
+    isBirthdateValid = true;
+  }
+  
+  const isRadioValid = Array.from(formElt.location).find(x => x.checked) !== undefined;
 
-  const conditionsOk = formElt.checkbox1.checked
+  const isCheckboxValid = formElt.checkbox1.checked;
 
-  if (firstnameOk && lastnameOk && emailOk && qtyOk && radioOk && conditionsOk) {
+  if (isFirstnameValid && isLastnameValid && isEmailValid && isQtyValid && isBirthdateValid && isRadioValid && isCheckboxValid) {
     return true
   } else {
     console.log(`Les champs ne sont pas correctement remplis`);
