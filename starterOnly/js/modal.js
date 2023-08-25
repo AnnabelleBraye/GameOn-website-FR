@@ -76,41 +76,48 @@ function launchModal() {
 function validate() {
   const firstnameElement = {
     elementName: formElt.firstname,
-    condition: this.isFirstnameValid
+    condition: this.isFirstnameValid,
+    errorMsg: 'Le prénom doit faire au moins 2 caractères.'
   }
   const lastnameElement = {
     elementName: formElt.lastname,
-    condition: this.isLastnameValid
+    condition: this.isLastnameValid,
+    errorMsg: 'Le nom doit faire au moins 2 caractères.'
   }
   const emailElement = {
     elementName: formElt.email,
-    condition: this.isEmailValid
-  }
-  const qtyElement = {
-    elementName: formElt.quantity,
-    condition: this.isQtyValid
+    condition: this.isEmailValid,
+    errorMsg: 'Veuillez saisir une adresse email valide.'
   }
   const birthdateElement = {
     elementName: formElt.birthdate,
-    condition: this.isBirthdateValid
+    condition: this.isBirthdateValid,
+    errorMsg: 'La date de naissance ne peut pas être supérieure à la date du jour.'
+  }
+  const qtyElement = {
+    elementName: formElt.quantity,
+    condition: this.isQtyValid,
+    errorMsg: 'La quantité doit être comprise entre 0 et 99.'
   }
   const radioElement = {
     elementName: Array.from(formElt.location),
-    condition: this.isRadioValid
+    condition: this.isRadioValid,
+    errorMsg: 'Veuillez choisir un tournoi.'
   }
   const checkboxElement = {
     elementName: formElt.checkbox1,
-    condition: this.isCheckboxValid
+    condition: this.isCheckboxValid,
+    errorMsg: 'Vous devez avoir lu et accepté les conditions d\'utilisation.'
   }
 
   try {
-    const firstnameIsValid = manageFieldValidity(firstnameElement, 'Le prénom doit faire au moins 2 caractères.');
-    const lastnameIsValid = manageFieldValidity(lastnameElement, 'Le nom doit faire au moins 2 caractères.');
-    const emailIsValid = manageFieldValidity(emailElement, 'Veuillez saisir une adresse email valide.');
-    const birthdateIsValid = manageFieldValidity(birthdateElement, 'La date de naissance ne peut pas être supérieure à la date du jour.');
-    const qtyIsValid = manageFieldValidity(qtyElement, 'La quantité doit être comprise entre 0 et 99.');
-    const radioIsValid = manageFieldValidity(radioElement, 'Veuillez choisir un tournoi.');
-    const checkboxIsValid = manageFieldValidity(checkboxElement, 'Vous devez avoir lu et accepté les conditions d\'utilisation.');
+    const firstnameIsValid = manageFieldValidity(firstnameElement);
+    const lastnameIsValid = manageFieldValidity(lastnameElement);
+    const emailIsValid = manageFieldValidity(emailElement);
+    const birthdateIsValid = manageFieldValidity(birthdateElement);
+    const qtyIsValid = manageFieldValidity(qtyElement);
+    const radioIsValid = manageFieldValidity(radioElement);
+    const checkboxIsValid = manageFieldValidity(checkboxElement);
 
     if (firstnameIsValid && lastnameIsValid && emailIsValid && birthdateIsValid
     && qtyIsValid && radioIsValid && checkboxIsValid) {
@@ -123,20 +130,16 @@ function validate() {
 }
 
 /**
- * Add a blur event on every fields to hide error if condition is valid
+ * Add a input event on every fields to hide error if condition is valid
  * @param {*} element Contains elementName and condition to show/hide error
  */
 function addFieldsEvent(element) {
   // Radiobutton case
   if (Array.isArray(element.elementName)) {
     element.elementName.forEach(subElt => {
-      // addListeners(subElt, element);
-      // addChangeListener(subElt, element);
       addInputListener(subElt, element);
     })
   } else {
-    // addListeners(element.elementName, element);
-    // addBlurListener(element.elementName, element);
     addInputListener(element.elementName, element);
   }
 }
@@ -146,7 +149,7 @@ function addFieldsEvent(element) {
  * @param {*} element Contains elementName and condition to show/hide error
  * @param {*} errorMsg Error message to show
  */
-function manageFieldValidity(element, errorMsg) {
+function manageFieldValidity(element) {
   let elt = element.elementName;
   // Radiobutton case
   if (Array.isArray(element.elementName)) {
@@ -155,7 +158,7 @@ function manageFieldValidity(element, errorMsg) {
 
   if (!element.condition()) {
     addFieldsEvent(element);
-    elt.parentElement.setAttribute('data-error', errorMsg);
+    elt.parentElement.setAttribute('data-error', element.errorMsg);
     elt.parentElement.setAttribute('data-error-visible', true);
     return false
   } else {

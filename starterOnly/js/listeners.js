@@ -19,21 +19,7 @@
 // }
 
 function addInputListener(elementName, element) {
-  elementName.addEventListener('input', () => {
-    checkCondition(element, elementName);
-  })
-}
-
-function addBlurListener(elementName, element) {
-  elementName.addEventListener('blur', () => {
-    checkCondition(element, elementName);
-  })
-}
-
-function addChangeListener(subElt, element) {
-  subElt.addEventListener('change', () => {
-    checkCondition(element, subElt);
-  })
+  elementName.addEventListener('input', () => checkCondition(element, elementName));
 }
 
 function checkCondition(element, elementName) {
