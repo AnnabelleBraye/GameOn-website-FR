@@ -18,7 +18,7 @@
       <div class="header-logo">
         <img alt="logo" src="../assets/images/Logo.png" width="auto" height="auto" />
       </div>
-      <div class="main-navbar">
+      <nav class="main-navbar">
         <a href="#" class="active"><span>Accueil</span></a>
         <a href="#"><span>Détails de l'évènement</span></a>
         <a href="#"><span>À propos</span></a>
@@ -27,7 +27,7 @@
         <a href="javascript:void(0);" class="icon" onclick="editNav()">
           <i class="fa fa-bars"></i>
         </a>
-      </div>
+      </nav>
     </div>
   </header>
   <main>
@@ -53,11 +53,11 @@
       </button>
     </section>
 
-    <div class="bground">
+    <div class="modal hidden">
       <div class="content">
         <span class="close"></span>
         <div class="modal-body">
-          <form name="reserve" action="" method="GET" onsubmit="return validate();" novalidate>
+          <form name="reserve" action="" method="GET" onsubmit="validate()" novalidate>
             <div class="formData">
               <label for="firstname" class="required" required>Prénom</label><br>
               <input class="text-control" type="text" id="firstname" name="firstname" /><br>
@@ -114,7 +114,7 @@
             </div>
 
             <div class="formData">
-              <input class="checkbox-input text-control" type="checkbox" name="checkbox1" id="checkbox1" checked />
+              <input class="checkbox-input text-control" type="checkbox" name="checkbox1" id="checkbox1" />
               <label class="checkbox2-label required" for="checkbox1">
                 <span class="checkbox-icon"></span>
                 J'ai lu et accepté les conditions d'utilisation.

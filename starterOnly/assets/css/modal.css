@@ -126,8 +126,8 @@ main {
   font-size: 16px;
 }
 
-.bground {
-  display: none;
+.modal {
+  display: block;
   position: fixed;
   z-index: 1;
   left: 0;
@@ -136,6 +136,10 @@ main {
   width: 100%;
   overflow: auto;
   background-color: rgba(26, 39, 156, 0.4);
+}
+
+.hidden {
+  display: none;
 }
 
 .content {
