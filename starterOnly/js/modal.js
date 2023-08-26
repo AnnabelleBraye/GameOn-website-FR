@@ -8,12 +8,13 @@ function editNav() {
 }
 
 // DOM Elements
+const bodyElt = document.querySelector('body');
 const modalElt = document.querySelector(".modal");
 const formData = document.querySelectorAll(".formData");
 const formElt = document.querySelector('[name=reserve]');
 
 // launch modal event
-addOpenAndCloseEvent(formElt);
+addOpenAndCloseEvent(formElt, openModal, closeModal);
 
 // function validate() {
 //   const isFirstnameValid = formElt.firstname.value.length >= 2;
@@ -115,7 +116,8 @@ function validate() {
 
     if (firstnameIsValid && lastnameIsValid && emailIsValid && birthdateIsValid
     && qtyIsValid && radioIsValid && checkboxIsValid) {
-      formElt.submit();
+      closeModal();
+      showConfirmationMsg(bodyElt);
     }
     return false;
   } catch (err) {
@@ -188,4 +190,52 @@ function isRadioValid() {
 }
 function isCheckboxValid() {
   return this.elementName.checked
+}
+
+/**
+ * Open modal form
+ */
+function openModal() {
+  modalElt.classList.remove('hidden');
+  resetData();
+}
+
+/**
+ * Close modal form
+ */
+function closeModal() {
+  modalElt.classList.add('hidden');
+}
+
+/**
+ * Reset all form data after closing page
+ * @param {*} formElt
+ */
+function resetData() {
+  formElt.firstname.value = '';
+  formElt.lastname.value = '';
+  formElt.email.value = '';
+  formElt.birthdate.value = '';
+  formElt.quantity.value = '';
+  formElt.location.forEach((loc) => {
+    loc.checked = false;
+  })
+  formElt.checkbox1.checked = false;
+}
+
+function showConfirmationMsg(bodyElt) {
+  const divElt = document.createElement('div');
+  divElt.classList.add('confirm-toast');
+  divElt.innerHTML = `<span>
+    <i class="fa-regular fa-2xl fa-check-circle"></i>
+  </span>
+  <div class="bold">
+    Félicitations, ${formElt.firstname.value}, vous venez de créer votre compte !
+  </div>
+  <span>
+    <i class="fa-solid fa-xmark"></i>
+  </span>`
+
+  addCloseToastListener(divElt);
+  bodyElt.appendChild(divElt)
 }
