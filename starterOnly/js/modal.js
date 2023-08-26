@@ -8,18 +8,12 @@ function editNav() {
 }
 
 // DOM Elements
-const modalbg = document.querySelector(".bground");
-const modalBtn = document.querySelectorAll(".modal-btn");
+const modalElt = document.querySelector(".modal");
 const formData = document.querySelectorAll(".formData");
 const formElt = document.querySelector('[name=reserve]');
 
 // launch modal event
-modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
-
-// launch modal form
-function launchModal() {
-  modalbg.style.display = "block";
-}
+addOpenAndCloseEvent(formElt);
 
 // function validate() {
 //   const isFirstnameValid = formElt.firstname.value.length >= 2;
@@ -137,10 +131,10 @@ function addFieldsEvent(element) {
   // Radiobutton case
   if (Array.isArray(element.elementName)) {
     element.elementName.forEach(subElt => {
-      addInputListener(subElt, element);
+      addInputListeners(subElt, element);
     })
   } else {
-    addInputListener(element.elementName, element);
+    addInputListeners(element.elementName, element);
   }
 }
 
@@ -148,6 +142,7 @@ function addFieldsEvent(element) {
  * Check the condition to validate a field and show or hide error
  * @param {*} element Contains elementName and condition to show/hide error
  * @param {*} errorMsg Error message to show
+ * @returns boolean, false if condition is invalid, else true
  */
 function manageFieldValidity(element) {
   let elt = element.elementName;
