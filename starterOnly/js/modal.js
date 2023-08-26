@@ -230,7 +230,7 @@ function showConfirmationMsg(bodyElt) {
     <i class="fa-regular fa-2xl fa-check-circle"></i>
   </span>
   <div class="bold">
-    Félicitations, ${formElt.firstname.value}, vous venez de créer votre compte !
+    Merci, ${formElt.firstname.value} ! Votre réservation a été reçue.
   </div>
   <span>
     <i class="fa-solid fa-xmark"></i>
