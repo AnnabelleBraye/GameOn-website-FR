@@ -24,42 +24,16 @@ function checkCondition(element, elementName) {
  * Create open and close modal events
  * @param {*} formElt 
  */
-function addOpenAndCloseEvent(formElt) {
+function addOpenAndCloseEvent(formElt, openModal, closeModal) {
   const openModalBtn = document.querySelectorAll(".modal-btn");
   const closeModalBtn = document.querySelector(".close");
 
   openModalBtn.forEach((btn) => btn.addEventListener("click", openModal));
-  closeModalBtn.addEventListener('click', () => closeModal(formElt));
+  closeModalBtn.addEventListener('click', closeModal);
 }
 
-/**
- * Open modal form
- */
-function openModal() {
-  modalElt.classList.remove('hidden');
-}
-
-/**
- * Close modal form
- * @param {*} formElt 
- */
-function closeModal(formElt) {
-  modalElt.classList.add('hidden');
-  resetData(formElt);
-}
-
-/**
- * Reset all form data after closing page
- * @param {*} formElt
- */
-function resetData(formElt) {
-  formElt.firstname.value = '';
-  formElt.lastname.value = '';
-  formElt.email.value = '';
-  formElt.birthdate.value = '';
-  formElt.quantity.value = '';
-  formElt.location.forEach((loc) => {
-    loc.checked = false;
+function addCloseToastListener(divElt) {
+  divElt.addEventListener('click', function() {
+    divElt.className = 'hidden';
   })
-  formElt.checkbox1.checked = false;
 }

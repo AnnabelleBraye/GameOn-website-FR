@@ -4,9 +4,12 @@
 <head>
   <meta charset="utf-8" />
   <title>Reservation</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="../assets/css/modal.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+    integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+    crossorigin="anonymous" referrerpolicy="no-referrer">
   <link href="https://fonts.googleapis.com/css?family=DM+Sans" rel="stylesheet" />
   <script src="../js/listeners.js" defer></script>
   <script src="../js/modal.js" defer></script>
@@ -57,7 +60,7 @@
       <div class="content">
         <span class="close"></span>
         <div class="modal-body">
-          <form name="reserve" action="" method="GET" onsubmit="validate()" novalidate>
+          <form name="reserve" action="" method="GET" onsubmit="return validate()" novalidate>
             <div class="formData">
               <label for="firstname" class="required" required>Prénom</label><br>
               <input class="text-control" type="text" id="firstname" name="firstname" /><br>
