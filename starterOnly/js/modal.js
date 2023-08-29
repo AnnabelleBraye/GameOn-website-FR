@@ -11,7 +11,7 @@ function editNav() {
 const bodyElt = document.querySelector('body');
 const modalElt = document.querySelector(".modal");
 const formData = document.querySelectorAll(".formData");
-const formElt = document.querySelector('[name=reserve]');
+const formElt = document.querySelector('[name=form]');
 
 // launch modal event
 addOpenAndCloseEvent(formElt, openModal, closeModal);
