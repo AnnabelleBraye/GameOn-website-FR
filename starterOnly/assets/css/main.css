@@ -41,6 +41,7 @@ img {
 }
 .main-navbar {
   float: right;
+  width: fit-content;
 }
 .topnav a {
   float: left;
@@ -50,8 +51,8 @@ img {
   padding: 12px 12px;
   margin: 5px;
   text-decoration: none;
-  font-size: 20px;
-  font-family: Roboto, sans-serif;
+  font-size: 18px;
+  font-weight: 500;
 }
 
 .topnav a:hover {
@@ -62,11 +63,12 @@ img {
 
 .topnav a.active {
   background-color: #ff0000;
+  text-decoration: underline;
   color: #ffffff;
   border-radius: 15px;
 }
 
-.topnav .icon {
+.topnav .burger {
   display: none;
 }
 
@@ -235,7 +237,7 @@ footer {
   .topnav a {
     display: none;
   }
-  .topnav a.icon {
+  .topnav a.burger {
     float: right;
     display: block;
   }
@@ -243,7 +245,7 @@ footer {
   .topnav.responsive {
     position: relative;
   }
-  .topnav.responsive .icon {
+  .topnav.responsive .burger {
     position: absolute;
     right: 0;
     top: 0;
@@ -253,6 +255,10 @@ footer {
     display: block;
     text-align: left;
   }
+  .links {
+    position: relative;
+    right: 38px;
+  }
 }
 
 /* media max-width: 540px */
@@ -260,10 +266,13 @@ footer {
   .topnav a {
     display: none;
   }
-  .topnav a.icon {
+  .topnav a.burger {
     float: right;
     display: block;
-    margin-top: -15px;
+  }
+  .links {
+    position: unset;
+    right: 0;
   }
 }
 
