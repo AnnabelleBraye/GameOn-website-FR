@@ -11,7 +11,7 @@ function editNav() {
 const bodyElt = document.querySelector('body');
 const modalElt = document.querySelector(".modal");
 const formData = document.querySelectorAll(".formData");
-const formElt = document.querySelector('[name=reserve]');
+const formElt = document.querySelector('[name=form]');
 
 // launch modal event
 addOpenAndCloseEvent(formElt, openModal, closeModal);
@@ -87,7 +87,7 @@ function validate() {
   const birthdateElement = {
     elementName: formElt.birthdate,
     condition: this.isBirthdateValid,
-    errorMsg: 'La date de naissance ne peut pas être supérieure à la date du jour.'
+    errorMsg: 'Vous devez saisir une date de naissance valide.'
   }
   const qtyElement = {
     elementName: formElt.quantity,
@@ -177,8 +177,8 @@ function isEmailValid() {
 }
 function isQtyValid() {
   const qtyValue = this.elementName.value;
-  // returns true if qty is empty or if it's a number between 0 and 99
-  return !qtyValue || (qtyValue && !isNaN(qtyValue) && qtyValue >= 0 && qtyValue < 100)
+  // returns true if it's a number between 0 and 99
+  return qtyValue && !isNaN(qtyValue) && qtyValue >= 0 && qtyValue < 100
 }
 function isBirthdateValid() {
   const birthdateTime = new Date(this.elementName.value).getTime();
