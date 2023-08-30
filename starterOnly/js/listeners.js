@@ -71,6 +71,7 @@ function addOpenAndCloseEvent(openModal, closeModal) {
  * @param {*} closeModal 
  */
 function addEventsOnConfirmationModal(closeModal) {
+  const val = document.querySelector('.confirm-msg .btn-submit')
   document.querySelector('.confirm-msg .btn-submit').addEventListener('click', closeModal);
   document.querySelector('.confirm-msg .close-confirm-container').addEventListener('click', closeModal); 
 }

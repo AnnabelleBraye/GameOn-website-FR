@@ -108,7 +108,6 @@ function isFirstnameValid() {
   const val = this.elementName.value.trim();
   const letterRegex = /^[a-zA-Z]+[ \-']?[a-zA-Z]+$/
   return val.length >= 2 && letterRegex.test(val);
-  // return val.length >= 2;
 }
 function isLastnameValid() {
   const val = this.elementName.value.trim();
@@ -126,9 +125,18 @@ function isQtyValid() {
   return qtyValue && !isNaN(qtyValue) && qtyValue >= 0 && qtyValue < 100
 }
 function isBirthdateValid() {
-  const birthdateTime = new Date(this.elementName.value).getTime();
-  const todayTime = new Date().getTime();
-  return birthdateTime <= todayTime;
+  const today = new Date();
+  const todayTime = today.getTime();
+  const todayYear = today.getFullYear();
+  const birthdateDate = new Date(this.elementName.value);
+  const birthdateTime = birthdateDate.getTime();
+  const birthdateYear = birthdateDate.getFullYear();
+  const [minAge, maxAge] = [6, 120];
+
+  this.errorMsg = 'test';
+  return birthdateTime <= todayTime
+  && todayYear - birthdateYear <= maxAge 
+  && todayYear - birthdateYear >= minAge;
 }
 function isRadioValid() {
   return this.elementName.find(x => x.checked) !== undefined;
@@ -153,7 +161,7 @@ function openModal() {
  */
 function closeModal() {
   modalElt.classList.add('hidden');
-  formElt.submit();
+  // formElt.submit();
 }
 
 /**
@@ -182,8 +190,10 @@ function resetData() {
  */
 function showConfirmationMsg() {  
   document.querySelector('.content').classList.add('hidden');
-  document.querySelector('.confirm-msg').classList.remove('hidden');
-  document.querySelector('.confirm-msg').classList.add('flex');
+  const confirmMsgElt = document.querySelector('div.confirm-msg');
+  confirmMsgElt.classList.remove('hidden');
+  confirmMsgElt.classList.add('flex');
+  confirmMsgElt.querySelector('.thanks').textContent += `, ${formElt.firstname.value}`;
 
   addEventsOnConfirmationModal(closeModal);
 }
