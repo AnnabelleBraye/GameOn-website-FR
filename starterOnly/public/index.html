@@ -59,10 +59,9 @@
     </section>
 
     <div class="modal hidden">
-      <div class="content">
+      <div class="modal-content content">
         <span class="close"></span>
         <div class="modal-body">
-          <!-- <form name="form" action="" method="GET" onsubmit="return validate()" novalidate> -->
           <form name="form" action="" method="GET" novalidate>
             <div class="formData">
               <label for="firstname" class="required">Prénom</label><br>
@@ -133,9 +132,16 @@
               </label>
               <br>
             </div>
-            <input class="btn-submit" type="submit" class="button" value="C'est parti">
+            <input class="btn-submit" type="submit" value="C'est parti">
           </form>
         </div>
+      </div>
+      <div class=" modal-content confirm-msg hidden">
+        <div class="close-confirm-container">
+          <span class="fa-solid fa-xmark"></span>
+        </div>
+        <div class="thanks">Merci pour votre inscription</div>
+        <button type="button" class="btn-submit">Fermer</button>
       </div>
     </div>
   </main>

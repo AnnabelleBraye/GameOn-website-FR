@@ -57,8 +57,7 @@ function validate(e) {
 
     if (firstnameIsValid && lastnameIsValid && emailIsValid && birthdateIsValid
     && qtyIsValid && radioIsValid && checkboxIsValid) {
-      closeModal();
-      showConfirmationMsg(bodyElt);
+      showConfirmationMsg();
     }
     return false;
   } catch (err) {
@@ -94,9 +93,8 @@ function manageFieldValidity(element) {
     elt = element.elementName[0]
   }
 
+  addFieldsEvent(element);
   if (!element.condition()) {
-    // if (!element.condition()) {
-    addFieldsEvent(element);
     elt.parentElement.setAttribute('data-error', element.errorMsg);
     elt.parentElement.setAttribute('data-error-visible', true);
     return false
@@ -107,15 +105,20 @@ function manageFieldValidity(element) {
 }
 
 function isFirstnameValid() {
-  return this.elementName.value.length >= 2;
+  const val = this.elementName.value.trim();
+  const letterRegex = /^[a-zA-Z]+[ \-']?[a-zA-Z]+$/
+  return val.length >= 2 && letterRegex.test(val);
+  // return val.length >= 2;
 }
 function isLastnameValid() {
-  return this.elementName.value.length >= 2;
+  const val = this.elementName.value.trim();
+  const letterRegex = /^[a-zA-Z]+[ \-']?[a-zA-Z]+$/
+  return val.length >= 2 && letterRegex;
 }
 function isEmailValid() {
   const regexMail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
   // return true if email format is like '###@###.##'
-  return regexMail.test(this.elementName.value)
+  return regexMail.test(this.elementName.value.trim())
 }
 function isQtyValid() {
   const qtyValue = this.elementName.value;
@@ -138,7 +141,10 @@ function isCheckboxValid() {
  * Open modal form
  */
 function openModal() {
-  modalElt.classList.remove('hidden');
+  modalElt.classList.remove('hidden')  
+  document.querySelector('.content').classList.remove('hidden');
+  document.querySelector('.confirm-msg').classList.add('hidden');
+  document.querySelector('.confirm-msg').classList.remove('flex');
   resetData();
 }
 
@@ -147,10 +153,11 @@ function openModal() {
  */
 function closeModal() {
   modalElt.classList.add('hidden');
+  formElt.submit();
 }
 
 /**
- * Reset all form data after closing page
+ * Reset all form data and dataset after closing page
  * @param {*} formElt
  */
 function resetData() {
@@ -163,21 +170,20 @@ function resetData() {
     loc.checked = false;
   })
   formElt.checkbox1.checked = false;
+
+  document.querySelectorAll('.formData').forEach(elt => {
+    delete elt.dataset.error;
+    delete elt.dataset.errorVisible;
+  })
 }
 
-function showConfirmationMsg(bodyElt) {
-  const divElt = document.createElement('div');
-  divElt.classList.add('confirm-toast');
-  divElt.innerHTML = `<span>
-    <i class="fa-regular fa-2xl fa-check-circle"></i>
-  </span>
-  <div class="bold">
-    Merci, ${formElt.firstname.value} ! Votre réservation a été reçue.
-  </div>
-  <span>
-    <i class="fa-solid fa-xmark"></i>
-  </span>`
+/**
+ * Show confirmation Message on submit and hide modal content element
+ */
+function showConfirmationMsg() {  
+  document.querySelector('.content').classList.add('hidden');
+  document.querySelector('.confirm-msg').classList.remove('hidden');
+  document.querySelector('.confirm-msg').classList.add('flex');
 
-  addCloseToastListener(divElt);
-  bodyElt.appendChild(divElt)
+  addEventsOnConfirmationModal(closeModal);
 }

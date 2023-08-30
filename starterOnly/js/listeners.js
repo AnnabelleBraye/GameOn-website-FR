@@ -66,8 +66,11 @@ function addOpenAndCloseEvent(openModal, closeModal) {
   closeModalBtn.addEventListener('click', closeModal);
 }
 
-function addCloseToastListener(divElt) {
-  divElt.addEventListener('click', function() {
-    divElt.className = 'hidden';
-  })
+/**
+ * Call closeModal function on click
+ * @param {*} closeModal 
+ */
+function addEventsOnConfirmationModal(closeModal) {
+  document.querySelector('.confirm-msg .btn-submit').addEventListener('click', closeModal);
+  document.querySelector('.confirm-msg .close-confirm-container').addEventListener('click', closeModal); 
 }
