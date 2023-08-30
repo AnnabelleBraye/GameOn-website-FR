@@ -1,74 +1,15 @@
-function editNav() {
-  var x = document.getElementById("myTopnav");
-  if (x.className === "topnav") {
-    x.className += " responsive";
-  } else {
-    x.className = "topnav";
-  }
-}
-
-// DOM Elements
-const bodyElt = document.querySelector('body');
 const modalElt = document.querySelector(".modal");
 const formData = document.querySelectorAll(".formData");
 const formElt = document.querySelector('[name=form]');
 
 // launch modal event
-addOpenAndCloseEvent(formElt, openModal, closeModal);
-
-// function validate() {
-//   const isFirstnameValid = formElt.firstname.value.length >= 2;
-//   const isLastnameValid = formElt.lastname.value.length >= 2;
-//   const regexMail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
-//   // return true if email format is like '###@###.##'
-//   const isEmailValid = regexMail.test(formElt.email.value)
-//   const qtyValue = formElt.quantity.value;
-//   // return true if qty is empty or if it's a number between 0 and 99
-//   const isQtyValid = !qtyValue || (qtyValue && !isNaN(qtyValue) && qtyValue >= 0 && qtyValue < 100)
-//   const birthdateTime = new Date(formElt.birthdate.value).getTime();
-//   const todayTime = new Date().getTime();
-//   const isBirthdateValid = birthdateTime <= todayTime;
-//   // returns true if one radio button is checked
-//   const isRadioValid = Array.from(formElt.location).find(x => x.checked) !== undefined;
-//   const isCheckboxValid = formElt.checkbox1.checked;
-  
-//   manageFieldValidity(firstnameElement, 'Le prénom doit faire au moins 2 caractères.');
-//   manageFieldValidity(formElt.firstname, isFirstnameValid(), 'Le prénom doit faire au moins 2 caractères.');
-//   manageFieldValidity(formElt.lastname, isLastnameValid, 'Le nom doit faire au moins 2 caractères.');
-//   manageFieldValidity(formElt.email, isEmailValid, 'Veuillez saisir une adresse email valide.');
-//   manageFieldValidity(formElt.quantity, isQtyValid, 'La quantité doit être comprise entre 0 et 99.');
-//   manageFieldValidity(formElt.birthdate, isBirthdateValid, 'La date de naissance ne peut pas être supérieure à la date du jour.');
-//   manageFieldValidity(formElt.location[0], isRadioValid, 'Veuillez choisir un tournoi.');
-//   manageFieldValidity(formElt.checkbox1, isCheckboxValid, 'Vous devez avoir lu et accepté les conditions d\'utilisation.');
-
-//   try {
-//     if (firstnameElement.condition && isLastnameValid && isEmailValid && isQtyValid
-//     && isBirthdateValid && isRadioValid && isCheckboxValid) {
-//       formElt.submit();
-//     }
-//     return false;
-//   } catch (err) {
-//     alert(err);
-//   }
-// }
-
-/**
- * Check the condition to validate a field and show or hide error
- * @param {*} element element for which we will show or hide error
- * @param {*} condition condition to show or hide error
- * @param {*} errorMsg Error message to show
- */
-// function manageFieldValidity(element, condition, errorMsg) {
-//   if (!condition()) {
-//     element.parentElement.setAttribute('data-error', errorMsg);
-//     element.parentElement.setAttribute('data-error-visible', true);
-//   } else {
-//     element.parentElement.setAttribute('data-error-visible', false);
-//   }
-// }
+addOpenAndCloseEvent(openModal, closeModal);
+// add onSubmit event
+addOnSubmitEvent(validate);
 
 // Check on submit
-function validate() {
+function validate(e) {
+  e.preventDefault();
   const firstnameElement = {
     elementName: formElt.firstname,
     condition: this.isFirstnameValid,
@@ -87,7 +28,7 @@ function validate() {
   const birthdateElement = {
     elementName: formElt.birthdate,
     condition: this.isBirthdateValid,
-    errorMsg: 'Vous devez saisir une date de naissance valide.'
+    errorMsg: 'Vous devez saisir une date de naissance valide et cohérente.'
   }
   const qtyElement = {
     elementName: formElt.quantity,
@@ -116,8 +57,7 @@ function validate() {
 
     if (firstnameIsValid && lastnameIsValid && emailIsValid && birthdateIsValid
     && qtyIsValid && radioIsValid && checkboxIsValid) {
-      closeModal();
-      showConfirmationMsg(bodyElt);
+      showConfirmationMsg();
     }
     return false;
   } catch (err) {
@@ -153,8 +93,8 @@ function manageFieldValidity(element) {
     elt = element.elementName[0]
   }
 
+  addFieldsEvent(element);
   if (!element.condition()) {
-    addFieldsEvent(element);
     elt.parentElement.setAttribute('data-error', element.errorMsg);
     elt.parentElement.setAttribute('data-error-visible', true);
     return false
@@ -165,15 +105,19 @@ function manageFieldValidity(element) {
 }
 
 function isFirstnameValid() {
-  return this.elementName.value.length >= 2;
+  const val = this.elementName.value.trim();
+  const letterRegex = /^[a-zA-Z]+[ \-']?[a-zA-Z]+$/
+  return val.length >= 2 && letterRegex.test(val);
 }
 function isLastnameValid() {
-  return this.elementName.value.length >= 2;
+  const val = this.elementName.value.trim();
+  const letterRegex = /^[a-zA-Z]+[ \-']?[a-zA-Z]+$/
+  return val.length >= 2 && letterRegex;
 }
 function isEmailValid() {
   const regexMail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
   // return true if email format is like '###@###.##'
-  return regexMail.test(this.elementName.value)
+  return regexMail.test(this.elementName.value.trim())
 }
 function isQtyValid() {
   const qtyValue = this.elementName.value;
@@ -181,9 +125,17 @@ function isQtyValid() {
   return qtyValue && !isNaN(qtyValue) && qtyValue >= 0 && qtyValue < 100
 }
 function isBirthdateValid() {
-  const birthdateTime = new Date(this.elementName.value).getTime();
-  const todayTime = new Date().getTime();
-  return birthdateTime <= todayTime;
+  const today = new Date();
+  const todayTime = today.getTime();
+  const todayYear = today.getFullYear();
+  const birthdateDate = new Date(this.elementName.value);
+  const birthdateTime = birthdateDate.getTime();
+  const birthdateYear = birthdateDate.getFullYear();
+  const [minAge, maxAge] = [6, 120];
+
+  return birthdateTime <= todayTime
+  && todayYear - birthdateYear <= maxAge 
+  && todayYear - birthdateYear >= minAge;
 }
 function isRadioValid() {
   return this.elementName.find(x => x.checked) !== undefined;
@@ -193,10 +145,14 @@ function isCheckboxValid() {
 }
 
 /**
- * Open modal form
+ * Open modal form and handle hidden on modal content and modal confirm-msg
+ * Reset form data
  */
 function openModal() {
-  modalElt.classList.remove('hidden');
+  modalElt.classList.remove('hidden')  
+  document.querySelector('.content').classList.remove('hidden');
+  document.querySelector('.confirm-msg').classList.add('hidden');
+  document.querySelector('.confirm-msg').classList.remove('flex');
   resetData();
 }
 
@@ -205,10 +161,11 @@ function openModal() {
  */
 function closeModal() {
   modalElt.classList.add('hidden');
+  // formElt.submit();
 }
 
 /**
- * Reset all form data after closing page
+ * Reset all form data and dataset after closing page
  * @param {*} formElt
  */
 function resetData() {
@@ -221,21 +178,22 @@ function resetData() {
     loc.checked = false;
   })
   formElt.checkbox1.checked = false;
+
+  document.querySelectorAll('.formData').forEach(elt => {
+    delete elt.dataset.error;
+    delete elt.dataset.errorVisible;
+  })
 }
 
-function showConfirmationMsg(bodyElt) {
-  const divElt = document.createElement('div');
-  divElt.classList.add('confirm-toast');
-  divElt.innerHTML = `<span>
-    <i class="fa-regular fa-2xl fa-check-circle"></i>
-  </span>
-  <div class="bold">
-    Merci, ${formElt.firstname.value} ! Votre réservation a été reçue.
-  </div>
-  <span>
-    <i class="fa-solid fa-xmark"></i>
-  </span>`
+/**
+ * Show confirmation Message on submit and hide modal content element
+ */
+function showConfirmationMsg() {  
+  document.querySelector('.content').classList.add('hidden');
+  const confirmMsgElt = document.querySelector('div.confirm-msg');
+  confirmMsgElt.classList.remove('hidden');
+  confirmMsgElt.classList.add('flex');
+  confirmMsgElt.querySelector('.thanks').textContent += `, ${formElt.firstname.value}`;
 
-  addCloseToastListener(divElt);
-  bodyElt.appendChild(divElt)
+  addEventsOnConfirmationModal(closeModal);
 }
