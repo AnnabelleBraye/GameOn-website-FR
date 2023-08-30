@@ -145,7 +145,8 @@ function isCheckboxValid() {
 }
 
 /**
- * Open modal form
+ * Open modal form and handle hidden on modal content and modal confirm-msg
+ * Reset form data
  */
 function openModal() {
   modalElt.classList.remove('hidden')  
