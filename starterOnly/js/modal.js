@@ -28,7 +28,7 @@ function validate(e) {
   const birthdateElement = {
     elementName: formElt.birthdate,
     condition: this.isBirthdateValid,
-    errorMsg: 'Vous devez saisir une date de naissance valide.'
+    errorMsg: 'Vous devez saisir une date de naissance valide et cohérente.'
   }
   const qtyElement = {
     elementName: formElt.quantity,
@@ -133,7 +133,6 @@ function isBirthdateValid() {
   const birthdateYear = birthdateDate.getFullYear();
   const [minAge, maxAge] = [6, 120];
 
-  this.errorMsg = 'test';
   return birthdateTime <= todayTime
   && todayYear - birthdateYear <= maxAge 
   && todayYear - birthdateYear >= minAge;
