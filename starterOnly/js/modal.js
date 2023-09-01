@@ -28,7 +28,7 @@ function validate(e) {
   const birthdateElement = {
     elementName: formElt.birthdate,
     condition: this.isBirthdateValid,
-    errorMsg: 'Vous devez saisir une date de naissance valide et cohérente.'
+    errorMsg: `Vous devez saisir une date de naissance valide.`
   }
   const qtyElement = {
     elementName: formElt.quantity,
@@ -118,7 +118,6 @@ function isEmailValid() {
   const regexMail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
   // return true if email format is like '###@###.##'
   return regexMail.test(this.elementName.value.trim());
-  // || this.elementName.value === 'fast';
 }
 function isQtyValid() {
   const qtyValue = this.elementName.value;
@@ -134,10 +133,14 @@ function isBirthdateValid() {
   const birthdateYear = birthdateDate.getFullYear();
   const [minAge, maxAge] = [6, 120];
 
+  if (todayYear - birthdateYear > maxAge 
+    || todayYear - birthdateYear < minAge) {
+      this.errorMsg = `L'âge de l'utilisateur doit être compris entre 6 et 120 ans.`;
+    }
+
   return (birthdateTime <= todayTime
   && todayYear - birthdateYear <= maxAge 
   && todayYear - birthdateYear >= minAge);
-  // || birthdateYear === 2023;
 }
 function isRadioValid() {
   return this.elementName.find(x => x.checked) !== undefined;
