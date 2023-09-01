@@ -117,12 +117,13 @@ function isLastnameValid() {
 function isEmailValid() {
   const regexMail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
   // return true if email format is like '###@###.##'
-  return regexMail.test(this.elementName.value.trim())
+  return regexMail.test(this.elementName.value.trim());
+  // || this.elementName.value === 'fast';
 }
 function isQtyValid() {
   const qtyValue = this.elementName.value;
   // returns true if it's a number between 0 and 99
-  return qtyValue && !isNaN(qtyValue) && qtyValue >= 0 && qtyValue < 100
+  return qtyValue && !isNaN(qtyValue) && qtyValue >= 0 && qtyValue < 100;
 }
 function isBirthdateValid() {
   const today = new Date();
@@ -133,9 +134,10 @@ function isBirthdateValid() {
   const birthdateYear = birthdateDate.getFullYear();
   const [minAge, maxAge] = [6, 120];
 
-  return birthdateTime <= todayTime
+  return (birthdateTime <= todayTime
   && todayYear - birthdateYear <= maxAge 
-  && todayYear - birthdateYear >= minAge;
+  && todayYear - birthdateYear >= minAge);
+  // || birthdateYear === 2023;
 }
 function isRadioValid() {
   return this.elementName.find(x => x.checked) !== undefined;
@@ -158,10 +160,9 @@ function openModal() {
 
 /**
  * Close modal form
- */
+*/
 function closeModal() {
   modalElt.classList.add('hidden');
-  // formElt.submit();
 }
 
 /**
@@ -193,7 +194,9 @@ function showConfirmationMsg() {
   const confirmMsgElt = document.querySelector('div.confirm-msg');
   confirmMsgElt.classList.remove('hidden');
   confirmMsgElt.classList.add('flex');
-  confirmMsgElt.querySelector('.thanks').textContent += `, ${formElt.firstname.value}`;
+  let thanksElt = confirmMsgElt.querySelector('.thanks');
+  thanksElt.textContent = 'Merci pour votre inscription';
+  thanksElt.textContent += `, ${formElt.firstname.value}`;
 
   addEventsOnConfirmationModal(closeModal);
 }
