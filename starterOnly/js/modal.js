@@ -166,6 +166,14 @@ function closeModal() {
 }
 
 /**
+ * Function to call closeModal and submit form
+ */
+function closeAndSubmit() {
+  close();
+  formElt.submit();
+}
+
+/**
  * Reset all form data and dataset after closing page
  * @param {*} formElt
  */
@@ -194,9 +202,7 @@ function showConfirmationMsg() {
   const confirmMsgElt = document.querySelector('div.confirm-msg');
   confirmMsgElt.classList.remove('hidden');
   confirmMsgElt.classList.add('flex');
-  let thanksElt = confirmMsgElt.querySelector('.thanks');
-  thanksElt.textContent = 'Merci pour votre inscription';
-  thanksElt.textContent += `, ${formElt.firstname.value}`;
+  confirmMsgElt.querySelector('.thanks').textContent += `, ${formElt.firstname.value}`;
 
-  addEventsOnConfirmationModal(closeModal);
+  addEventsOnConfirmationModal(() => closeAndSubmit());
 }
